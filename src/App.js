@@ -31,6 +31,13 @@ export default class App extends Component {
 
     ]
   }
+
+  deleteUser=(id)=>{
+    this.setState({
+      users: this.state.users.filter(user => id !== user.id)
+    })
+  }
+
   render() {
 
 
@@ -38,7 +45,9 @@ export default class App extends Component {
       <div className="container">
         <Navbar title="User App" />
         <hr />
-        <Users users = {this.state.users}/>
+        <Users users = {this.state.users}
+               deleteUser = {this.deleteUser}
+        />
 
       </div>
     );
