@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import User from './User';
-import UserConsumer from '../context/Context'
+import UserConsumer from '../context/Context';
 
 
 export default class Users extends Component {
