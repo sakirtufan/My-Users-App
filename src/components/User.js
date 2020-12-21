@@ -8,11 +8,6 @@ export default class User extends Component {
     isVisible: false
   }
 
-  // static defaultProps = {
-  //   name: 'Bilgi yok',
-  //   department: 'Bilgi yok',
-  //   salary: 'Bilgi yok'
-  // }
 
   onClickEvent = (e) => {
     this.setState({
@@ -21,9 +16,7 @@ export default class User extends Component {
   }
 
   onDeleteUser = () => {
-    const {id, deleteUser} = this.props;
-    deleteUser(id)
-
+    // const {id} = this.props;
   }
 
   render(props) {
@@ -57,8 +50,7 @@ export default class User extends Component {
 User.propTypes = {
   name: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
-  salary: PropTypes.string.isRequired,
-  deleteUser: PropTypes.func.isRequired,
+  salary: PropTypes.string.isRequired
 }
 
 User.defaultProps = {
