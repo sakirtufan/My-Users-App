@@ -8,7 +8,8 @@ export default class UpdateUser extends Component {
   state = {
     name: "",
     department: "",
-    salary: ""
+    salary: "",
+    error: false
   }
 
   changeInput = (e) => {
@@ -18,30 +19,46 @@ export default class UpdateUser extends Component {
   }
 
   componentDidMount = async () => {
-    const {id} = this.props.match.params;
+    const { id } = this.props.match.params;
 
     const response = await axios.get(`http://localhost:3001/users/${id}`);
     const { name, department, salary } = response.data;
 
     this.setState({
-      name, department, salary 
+      name, department, salary
     })
   }
-  
+
+  validateForm = () => {
+    const { name, department, salary } = this.state;
+    if (name === '' || salary === '' || department === '') {
+      return false
+    }
+
+    return true;
+  }
+
 
   UpdateUser = async (dispatch, e) => {
     e.preventDefault();
     //UpdateUser
     const { name, department, salary } = this.state;
-    const {id} = this.props.match.params;
-    const updatedUser={
+    const { id } = this.props.match.params;
+    const updatedUser = {
       name, department, salary
     }
 
+    if (!this.validateForm()) {
+      this.setState({
+        error: true
+      })
+      return;
+    }
 
-    const response = await axios.put(`http://localhost:3001/users/${id}`,updatedUser);
 
-    dispatch({type: 'UPDATE_USER', payload: response.data});
+    const response = await axios.put(`http://localhost:3001/users/${id}`, updatedUser);
+
+    dispatch({ type: 'UPDATE_USER', payload: response.data });
 
 
 
@@ -51,7 +68,7 @@ export default class UpdateUser extends Component {
   }
 
   render() {
-    const { name, department, salary } = this.state;
+    const { name, department, salary, error } = this.state;
 
     return (
       <UserConsumer>
@@ -67,6 +84,10 @@ export default class UpdateUser extends Component {
                     <h4>Update User Form</h4>
                   </div>
                   <div className="card-body">
+                    {error ?
+                      <div className="alert alert-danger">Please check your Information</div>
+                      : null
+                    }
                     <form onSubmit={this.UpdateUser.bind(this, dispatch)}>
                       <div className="form-group">
                         <label htmlFor="name">Name:</label>

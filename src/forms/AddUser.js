@@ -33,6 +33,15 @@ export default class AddUser extends Component {
     })
   }
 
+  validateForm = () => {
+    const {name, department, salary} = this.state;
+    if(name === '' || salary === '' || department === ''){
+      return false
+    }
+
+    return true;
+  }
+
   changeInput = (e) => {
     this.setState({
       [e.target.name] : e.target.value
@@ -44,9 +53,14 @@ export default class AddUser extends Component {
     const {name, department, salary} = this.state;
 
     const newUser = {
-      name,
-      salary,
-      department
+      name, salary, department
+    }
+
+    if(!this.validateForm()){
+      this.setState({
+        error:true
+      })
+      return;
     }
 
     const response = await axios.post("http://localhost:3001/users",newUser)
@@ -61,7 +75,7 @@ export default class AddUser extends Component {
 
  
   render() {
-    const { name, department, salary } = this.state;
+    const { name, department, salary, error } = this.state;
 
     return(
       <UserConsumer>
@@ -78,7 +92,12 @@ export default class AddUser extends Component {
                     <div className="card-header">
                       <h4>Add User Form</h4>
                     </div>
+                    
                     <div className="card-body">
+                      {error ? 
+                        <div className="alert alert-danger">Please check your Information</div>
+                        :null
+                      }
                       <form onSubmit={this.addUser.bind(this,dispatch)}>
                         <div className="form-group">
                           <label htmlFor="name">Name:</label>
