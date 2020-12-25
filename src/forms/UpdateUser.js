@@ -3,8 +3,6 @@ import UserConsumer from '../context/Context';
 import axios from 'axios';
 
 
-
-
 export default class UpdateUser extends Component {
 
   state = {
@@ -13,16 +11,42 @@ export default class UpdateUser extends Component {
     salary: ""
   }
 
-
   changeInput = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
 
+  componentDidMount = async () => {
+    const {id} = this.props.match.params;
+
+    const response = await axios.get(`http://localhost:3001/users/${id}`);
+    const { name, department, salary } = response.data;
+
+    this.setState({
+      name, department, salary 
+    })
+  }
+  
+
   UpdateUser = async (dispatch, e) => {
     e.preventDefault();
     //UpdateUser
+    const { name, department, salary } = this.state;
+    const {id} = this.props.match.params;
+    const updatedUser={
+      name, department, salary
+    }
+
+
+    const response = await axios.put(`http://localhost:3001/users/${id}`,updatedUser);
+
+    dispatch({type: 'UPDATE_USER', payload: response.data});
+
+
+
+    //redirect
+    this.props.history.push('/')
 
   }
 
@@ -79,14 +103,11 @@ export default class UpdateUser extends Component {
                           onChange={this.changeInput}
                         />
                       </div>
-
-                      <button className="btn btn-danger btn-block" type="submit">Update User</button>
+                      <button className="btn btn-info btn-block" type="submit">Update User</button>
 
                     </form>
                   </div>
                 </div>
-
-
               </div>
             );
           }

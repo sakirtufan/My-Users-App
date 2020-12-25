@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import UserConsumer from '../context/Context'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
+
 
 
 export default class User extends Component {
@@ -29,7 +31,7 @@ export default class User extends Component {
   render(props) {
     
     //Destructing
-    const { name,department,salary } = this.props;
+    const { id,name,department,salary } = this.props;
     const { isVisible } = this.state;
 
     return(
@@ -50,6 +52,7 @@ export default class User extends Component {
                     <div className="card-body">
                       <p className="card-text"> Salary : {salary}</p>
                       <p className="card-text"> Department : {department}</p>
+                      <Link to={`edit/${id}`} className="btn btn-dark btn-block">Update User</Link>
                     </div> : null
                   }
         

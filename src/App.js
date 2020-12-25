@@ -29,10 +29,8 @@ export default class App extends Component {
               <Route exact path="/add" component={AddUser}/> 
               <Route exact path="/github" component={Contribute}/> 
               <Route exact path="/edit/:id" component={UpdateUser}/> 
-              <Route component={NotFound}/> 
-              
-            </Switch>
-                  
+              <Route component={NotFound}/>               
+            </Switch>                 
           
         </div>
       </Router>

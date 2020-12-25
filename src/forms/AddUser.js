@@ -23,7 +23,8 @@ export default class AddUser extends Component {
     isVisible: true,
     name: "",
     department:"",
-    salary: ""
+    salary: "",
+    error: false
   }
 
   changeVisibility = (e) => {
@@ -51,6 +52,9 @@ export default class AddUser extends Component {
     const response = await axios.post("http://localhost:3001/users",newUser)
 
     dispatch({type:"ADD_USER",payload:response.data});
+
+    //redirect
+    this.props.history.push('/')
   }
 
 
